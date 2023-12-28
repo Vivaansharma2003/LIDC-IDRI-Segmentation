@@ -9,8 +9,8 @@ import torch
 import torch.backends.cudnn as cudnn
 import torch.nn as nn
 import torch.optim as optim
-from torch.optim import lr_scheduler
-
+from torch.optim import lr_schedulertimr
+from ptflops import get_model_complexity_info
 import albumentations as albu
 from sklearn.model_selection import train_test_split
 from tqdm import tqdm
@@ -99,6 +99,8 @@ def main():
     
     model = UNet_1(n_channels = 1, n_classes = 1, bilinear = True)
     model = model.cuda()
+    macs,params=get_model_complexity_info(model,input_res=(1,256,256),as_strings=True)
+    print('{:<30}  {:<8}'.format('Computational complexity: ', macs))
     
     if torch.cuda.device_count() > 1:
         model = nn.DataParallel(model)
