@@ -9,7 +9,7 @@ import torch
 import torch.backends.cudnn as cudnn
 import torch.nn as nn
 import torch.optim as optim
-from torch.optim import lr_schedulertimr
+from torch.optim import lr_scheduler
 from ptflops import get_model_complexity_info
 import albumentations as albu
 from sklearn.model_selection import train_test_split
@@ -163,7 +163,8 @@ def main():
             train_log['loss'],
             train_log['dice'],
             val_log['loss'],
-            val_log['dice']
+            val_log['dice'],
+            
         ], index=['epoch', 'lr', 'loss', 'dice', 'val_loss', 'val_dice'])
         
         log = log.append(tmp, ignore_index=True)
