@@ -1,5 +1,6 @@
 import torch
 import torch.nn as nn
+import torch.nn.functional as F
 from seprable_unet3D_parts import *
 class Unet3D(nn.Module):
     def __init__(self,n_class=1):
