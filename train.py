@@ -21,6 +21,12 @@ from utils import AverageMeter
 
 from models.unet_model_1 import UNet_1
 from models.unet_model_2 import UNet_2
+from models.unet_model_3d import UNet3D
+from models.sep3d import SeparableUNet3D
+
+from models.separable_unet_model_2 import Separable_UNet_2
+from models.separable_unet_model_3d import Separable_Unet_3D
+
 
 #configs
 lr = 1e-5
@@ -97,10 +103,11 @@ def main():
     criterion = BCEDiceLoss().cuda()
     cudnn.benchmark = True
     
-    model = UNet_1(n_channels = 1, n_classes = 1, bilinear = True)
+    
+    model= SeparableUNet3D()
     model = model.cuda()
-    macs,params=get_model_complexity_info(model,input_res=(1,256,256),as_strings=True)
-    print('{:<30}  {:<8}'.format('Computational complexity: ', macs))
+    macs,params=get_model_complexity_info(model,input_res=(3,64,64,64),as_strings=True)
+    print('{:<30}  {:<8}'.format('Computational complexity : ', macs))
     
     if torch.cuda.device_count() > 1:
         model = nn.DataParallel(model)
